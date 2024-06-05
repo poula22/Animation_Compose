@@ -21,19 +21,24 @@ fun CircleGameScreen() {
         mutableStateOf(false)
     }
 
-    var timer by remember {
-        mutableIntStateOf(60)
-    }
-
     Column(Modifier.fillMaxSize()) {
 
         ScoreBoard(
             score = score,
             isTimerStart = isTimerStart,
-            timer = timer,
-            toggleTimerState = { isTimerStart = ! isTimerStart },
-            resetScore = { score = 0 }
+            toggleTimerState = {
+                if (isTimerStart){
+                    score = 0
+                }
+                isTimerStart = !isTimerStart
+            },
         )
-        GameBoard()
+
+        GameBoard(
+            enabled = isTimerStart,
+            onBallClick = {
+                score++
+            }
+        )
     }
 }
