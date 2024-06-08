@@ -1,4 +1,4 @@
-package com.example.animationcompose.circleGame.component
+package com.example.animationcompose.presentation.circleGame.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

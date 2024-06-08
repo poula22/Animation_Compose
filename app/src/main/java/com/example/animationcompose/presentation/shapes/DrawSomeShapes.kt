@@ -1,19 +1,16 @@
-package com.example.animationcompose.shapes
+package com.example.animationcompose.presentation.shapes
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -21,32 +18,21 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.inset
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.MultiParagraph
-import androidx.compose.ui.text.ParagraphStyle
-import androidx.compose.ui.text.TextLayoutInput
-import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.animationcompose.navigation.Screens
 import com.example.animationcompose.ui.theme.AnimationComposeTheme
 
 @Composable
-fun DrawSomeShapes(onNavigate: () -> Unit) {
+fun DrawSomeShapes(onNavigate: (String) -> Unit) {
     val borderColor = MaterialTheme.colorScheme.onSurface
 
     Box(modifier = Modifier.fillMaxSize() ){
         Canvas(modifier = Modifier.fillMaxSize()) {
-            inset(horizontal = center.x - 108.dp.toPx(), center.y/1.5f - 108.dp.toPx()) {
+            inset(horizontal = center.x - 108.dp.toPx(), center.y/1.4f - 108.dp.toPx()) {
                 drawRoundRect(
                     color = borderColor,
                     size = Size(216.dp.toPx(), 216.dp.toPx()),
@@ -81,16 +67,32 @@ fun DrawSomeShapes(onNavigate: () -> Unit) {
             }
 
         }
-        Button(
+        Column(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(top = 154.dp)
+                .padding(top = 200.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-            ,
-            onClick = onNavigate
+                .padding(horizontal = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Text(text = "Start Game", fontSize = 24.sp)
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    onNavigate(Screens.CircleGame.route)
+                }
+            ) {
+                Text(text = "Circle Game", fontSize = 24.sp)
+            }
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    onNavigate(Screens.WeightSelector.route)
+                }
+            ) {
+                Text(text = "Weight Selector", fontSize = 24.sp)
+            }
         }
     }
 

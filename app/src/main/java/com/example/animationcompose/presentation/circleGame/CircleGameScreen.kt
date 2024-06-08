@@ -1,4 +1,4 @@
-package com.example.animationcompose.circleGame
+package com.example.animationcompose.presentation.circleGame
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.animationcompose.circleGame.component.GameBoard
-import com.example.animationcompose.circleGame.component.ScoreBoard
+import com.example.animationcompose.presentation.circleGame.component.GameBoard
+import com.example.animationcompose.presentation.circleGame.component.ScoreBoard
 
 @Composable
 fun CircleGameScreen() {

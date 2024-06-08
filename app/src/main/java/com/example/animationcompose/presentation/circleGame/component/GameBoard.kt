@@ -1,4 +1,4 @@
-package com.example.animationcompose.circleGame.component
+package com.example.animationcompose.presentation.circleGame.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -14,8 +14,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.example.animationcompose.ui.theme.AnimationComposeTheme
 import kotlin.math.pow
 import kotlin.math.roundToInt
