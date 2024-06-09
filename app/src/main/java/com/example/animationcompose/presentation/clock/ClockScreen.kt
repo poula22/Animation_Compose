@@ -39,27 +39,27 @@ fun ClockScreen(
         mutableFloatStateOf(0f)
     }
     val minDegree by remember {
-        mutableFloatStateOf(0f)
+        mutableFloatStateOf(10f)
     }
     val secDegree by remember {
-        mutableFloatStateOf(0f)
+        mutableFloatStateOf(20f)
     }
 
     Box(modifier = modifier.fillMaxSize()) {
         Canvas(modifier = modifier.fillMaxWidth()) {
             drawContext.canvas.nativeCanvas.apply {
                 val curHoursDegree = hoursDegree - clockStyle.hoursInitialDegree
-                val curHourDegreeInRad = curHoursDegree * (PI / 180f)
-                val x = (clockStyle.radius.toPx() * cos(curHourDegreeInRad)).toFloat() + center.x
-                val y = (clockStyle.radius.toPx() * sin(curHourDegreeInRad)).toFloat() + center.y
-                val innerRadius = 4.dp.toPx()
+                val hx = clockStyle.radius.toPx() + center.x - 16.dp.toPx()
+                val mx = clockStyle.radius.toPx() + center.x - 24.dp.toPx()
+                val sx = clockStyle.radius.toPx() + center.x
+
                 val topPoint = Offset(
                     x = center.x,
-                    y = center.y + (innerRadius * sin(curHourDegreeInRad)).toFloat()
+                    y = center.y + 4.dp.toPx()
                 )
                 val bottomPoint = Offset(
                     x = center.x,
-                    y = center.y - (innerRadius * sin(curHourDegreeInRad)).toFloat()
+                    y = center.y - 4.dp.toPx()
                 )
                 drawCircle(
                     center.x,
@@ -80,22 +80,82 @@ fun ClockScreen(
                         )
                     }
                 )
+
+                for(i in 0..59) {
+                    val angleInRad = (i*3)  * (PI / 180f)
+                    val lineRadius = clockStyle.radius - 10.dp
+                    val endX = (center.x + lineRadius.toPx() * cos(angleInRad)).toFloat()
+                    val endY = (center.y + lineRadius.toPx() * sin(angleInRad)).toFloat()
+                    val startX = (center.x + clockStyle.radius.toPx() * cos(angleInRad)).toFloat()
+                    val startY = (center.y + clockStyle.radius.toPx() * sin(angleInRad)).toFloat()
+                    withRotation(
+                        degrees = ((angleInRad) * 180f / PI).toFloat(),
+                        pivotX = center.x,
+                        pivotY = center.y
+                    ) {
+                        drawLine(
+                            Color.Black,
+                           Offset(
+                                x = startX,
+                                y = startY
+                            ),
+                            Offset(
+                                x = endX,
+                                y = endY
+                            )
+                        )
+                    }
+                }
                 withRotation(
                     degrees = curHoursDegree,
                     pivotX = center.x,
                     pivotY = center.y
                 ) {
                     Path().apply {
-                        moveTo(x, y)
+                        moveTo(hx, center.y)
                         lineTo(topPoint.x,topPoint.y)
                         lineTo(bottomPoint.x,bottomPoint.y)
-                        lineTo(x,y)
+                        lineTo(hx,center.y)
                         drawPath(
                             path = this,
                             color = Color.Black
                         )
                     }
                 }
+                withRotation(
+                    degrees = minDegree,
+                    pivotX = center.x,
+                    pivotY = center.y
+                ) {
+                    Path().apply {
+                        moveTo(mx, center.y)
+                        lineTo(topPoint.x,topPoint.y)
+                        lineTo(bottomPoint.x,bottomPoint.y)
+                        lineTo(mx,center.y)
+                        drawPath(
+                            path = this,
+                            color = Color.Black
+                        )
+                    }
+                }
+
+                withRotation(
+                    degrees = secDegree,
+                    pivotX = center.x,
+                    pivotY = center.y
+                ) {
+                    Path().apply {
+                        moveTo(sx, center.y)
+                        lineTo(topPoint.x,topPoint.y)
+                        lineTo(bottomPoint.x,bottomPoint.y)
+                        lineTo(sx,center.y)
+                        drawPath(
+                            path = this,
+                            color = clockStyle.secondsArrowColor
+                        )
+                    }
+                }
+
             }
         }
     }
