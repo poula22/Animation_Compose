@@ -25,6 +25,7 @@ import androidx.core.graphics.withRotation
 import com.example.animationcompose.presentation.clock.model.ClockStyle
 import java.util.Date
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -121,7 +122,7 @@ fun ClockScreen(
                             pivotY =  center.y
                         ) {
                             drawText(
-                                "${i + 3}",
+                                "${abs(i)}",
                                 textX,
                                 textY,
                                 Paint().apply {
