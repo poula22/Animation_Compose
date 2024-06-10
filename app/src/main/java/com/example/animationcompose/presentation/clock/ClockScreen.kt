@@ -3,6 +3,7 @@ package com.example.animationcompose.presentation.clock
 import android.graphics.Paint
 import android.icu.util.Calendar
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -81,13 +82,22 @@ fun ClockScreen(
                     }
                 )
 
-                for(i in 0..59) {
-                    val angleInRad = (i*3)  * (PI / 180f)
-                    val lineRadius = clockStyle.radius - 10.dp
-                    val endX = (center.x + lineRadius.toPx() * cos(angleInRad)).toFloat()
-                    val endY = (center.y + lineRadius.toPx() * sin(angleInRad)).toFloat()
-                    val startX = (center.x + clockStyle.radius.toPx() * cos(angleInRad)).toFloat()
-                    val startY = (center.y + clockStyle.radius.toPx() * sin(angleInRad)).toFloat()
+                for (i in 0..59) {
+                    val angleInRad = (i * 3) * (PI / 180f)
+                    Log.i("angle", angleInRad.toString())
+                    val length = if (i % 5 == 0) 16.dp else 10.dp
+                    val lineRadius = clockStyle.radius - length
+
+                    val lineEndOffset = Offset(
+                        x = (center.x + lineRadius.toPx() * cos(angleInRad)).toFloat(),
+                        y = (center.y + lineRadius.toPx() * sin(angleInRad)).toFloat()
+                    )
+
+                    val lineStartOffset = Offset(
+                        x = (center.x + clockStyle.radius.toPx() * cos(angleInRad)).toFloat(),
+                        y = (center.y + clockStyle.radius.toPx() * sin(angleInRad)).toFloat()
+                    )
+
                     withRotation(
                         degrees = ((angleInRad) * 180f / PI).toFloat(),
                         pivotX = center.x,
@@ -95,15 +105,31 @@ fun ClockScreen(
                     ) {
                         drawLine(
                             Color.Black,
-                           Offset(
-                                x = startX,
-                                y = startY
-                            ),
-                            Offset(
-                                x = endX,
-                                y = endY
-                            )
+                            lineStartOffset,
+                            lineEndOffset
                         )
+                    }
+                    if (i % 5 == 0) {
+                        val textRadius = lineRadius.toPx()
+                        val textX = (center.x + textRadius * cos(angleInRad)).toFloat()
+                        val textY = (center.y + textRadius * sin(angleInRad)).toFloat()
+
+
+                        withRotation(
+                            degrees = ((angleInRad) * 180f / PI).toFloat() ,
+                            pivotX = center.x,
+                            pivotY =  center.y
+                        ) {
+                            drawText(
+                                "${i + 3}",
+                                textX,
+                                textY,
+                                Paint().apply {
+                                    textSize = clockStyle.textSize.toPx()
+                                    textAlign = Paint.Align.CENTER
+                                }
+                            )
+                        }
                     }
                 }
                 withRotation(
@@ -113,9 +139,9 @@ fun ClockScreen(
                 ) {
                     Path().apply {
                         moveTo(hx, center.y)
-                        lineTo(topPoint.x,topPoint.y)
-                        lineTo(bottomPoint.x,bottomPoint.y)
-                        lineTo(hx,center.y)
+                        lineTo(topPoint.x, topPoint.y)
+                        lineTo(bottomPoint.x, bottomPoint.y)
+                        lineTo(hx, center.y)
                         drawPath(
                             path = this,
                             color = Color.Black
@@ -129,9 +155,9 @@ fun ClockScreen(
                 ) {
                     Path().apply {
                         moveTo(mx, center.y)
-                        lineTo(topPoint.x,topPoint.y)
-                        lineTo(bottomPoint.x,bottomPoint.y)
-                        lineTo(mx,center.y)
+                        lineTo(topPoint.x, topPoint.y)
+                        lineTo(bottomPoint.x, bottomPoint.y)
+                        lineTo(mx, center.y)
                         drawPath(
                             path = this,
                             color = Color.Black
@@ -146,9 +172,9 @@ fun ClockScreen(
                 ) {
                     Path().apply {
                         moveTo(sx, center.y)
-                        lineTo(topPoint.x,topPoint.y)
-                        lineTo(bottomPoint.x,bottomPoint.y)
-                        lineTo(sx,center.y)
+                        lineTo(topPoint.x, topPoint.y - 4.dp.toPx())
+                        lineTo(bottomPoint.x, bottomPoint.y - 4.dp.toPx())
+                        lineTo(sx, center.y)
                         drawPath(
                             path = this,
                             color = clockStyle.secondsArrowColor

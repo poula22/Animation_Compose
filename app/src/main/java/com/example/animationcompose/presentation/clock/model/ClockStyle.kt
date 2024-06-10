@@ -2,7 +2,9 @@ package com.example.animationcompose.presentation.clock.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 data class ClockStyle(
     val radius: Dp = 150.dp,
@@ -14,5 +16,6 @@ data class ClockStyle(
     val secondsArrowColor: Color = Color.Red,
     val hoursInitialDegree: Float = 0f,
     val minInitialDegree: Float = 0f,
-    val secInitialDegree: Float = 0f
+    val secInitialDegree: Float = 0f,
+    val textSize: TextUnit = 24.sp
 )
