@@ -15,18 +15,23 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.withRotation
 import com.example.animationcompose.presentation.clock.model.ClockStyle
+import com.example.animationcompose.ui.theme.AnimationComposeTheme
 import java.util.Date
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -46,6 +51,7 @@ fun ClockScreen(
     val secDegree by remember {
         mutableFloatStateOf(20f)
     }
+
 
     Box(modifier = modifier.fillMaxSize()) {
         Canvas(modifier = modifier.fillMaxWidth()) {
@@ -84,7 +90,7 @@ fun ClockScreen(
                 )
 
                 for (i in 0..59) {
-                    val angleInRad = (i * 3) * (PI / 180f)
+                    val angleInRad = (i * 6) * (PI / 180f)
                     Log.i("angle", angleInRad.toString())
                     val length = if (i % 5 == 0) 16.dp else 10.dp
                     val lineRadius = clockStyle.radius - length
@@ -99,38 +105,32 @@ fun ClockScreen(
                         y = (center.y + clockStyle.radius.toPx() * sin(angleInRad)).toFloat()
                     )
 
-                    withRotation(
-                        degrees = ((angleInRad) * 180f / PI).toFloat(),
-                        pivotX = center.x,
-                        pivotY = center.y
-                    ) {
-                        drawLine(
-                            Color.Black,
-                            lineStartOffset,
-                            lineEndOffset
-                        )
-                    }
+                    drawLine(
+                        Color.Black,
+                        lineStartOffset,
+                        lineEndOffset
+                    )
                     if (i % 5 == 0) {
-                        val textRadius = lineRadius.toPx()
+                        val textRadius = lineRadius.toPx() - clockStyle.textSize.toPx() / 2
                         val textX = (center.x + textRadius * cos(angleInRad)).toFloat()
                         val textY = (center.y + textRadius * sin(angleInRad)).toFloat()
+                        val text = (if (i == 0) 12 else i / 5).toString()
 
+                        drawLine(
+                            Color.Black,
+                            Offset(center.x,center.y),
+                            Offset(textX,textY)
+                        )
 
-                        withRotation(
-                            degrees = ((angleInRad) * 180f / PI).toFloat() ,
-                            pivotX = center.x,
-                            pivotY =  center.y
-                        ) {
-                            drawText(
-                                "${abs(i)}",
-                                textX,
-                                textY,
-                                Paint().apply {
-                                    textSize = clockStyle.textSize.toPx()
-                                    textAlign = Paint.Align.CENTER
-                                }
-                            )
-                        }
+                        drawText(
+                            text,
+                            textX,
+                            textY,
+                            Paint().apply {
+                                textSize = clockStyle.textSize.toPx()
+                                textAlign = Paint.Align.CENTER
+                            }
+                        )
                     }
                 }
                 withRotation(
@@ -184,6 +184,17 @@ fun ClockScreen(
                 }
 
             }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview
+@Composable
+fun PreviewClockS() {
+    AnimationComposeTheme {
+        Box(modifier = Modifier.fillMaxSize()) {
+            ClockScreen(modifier = Modifier.align(Alignment.Center), clockStyle = ClockStyle())
         }
     }
 }
