@@ -42,6 +42,8 @@ fun ClockScreen(
     clockStyle: ClockStyle
 ) {
 
+    val rect = android.graphics.Rect()
+
     val hoursDegree by remember {
         mutableFloatStateOf(0f)
     }
@@ -88,7 +90,7 @@ fun ClockScreen(
                         )
                     }
                 )
-
+                Log.i("angle", curTime.toString())
                 for (i in 0..59) {
                     val angleInRad = (i * 6) * (PI / 180f)
                     Log.i("angle", angleInRad.toString())
@@ -111,24 +113,25 @@ fun ClockScreen(
                         lineEndOffset
                     )
                     if (i % 5 == 0) {
-                        val textRadius = lineRadius.toPx() - clockStyle.textSize.toPx() / 2
+                        val textRadius = lineRadius.toPx() - clockStyle.textSize.toPx() + 5.dp.toPx()
                         val textX = (center.x + textRadius * cos(angleInRad)).toFloat()
                         val textY = (center.y + textRadius * sin(angleInRad)).toFloat()
                         val text = (if (i == 0) 12 else i / 5).toString()
 
-                        drawLine(
-                            Color.Black,
-                            Offset(center.x,center.y),
-                            Offset(textX,textY)
-                        )
+
+                        val paint = Paint().apply {
+                            textSize = clockStyle.textSize.toPx()
+                            textAlign = Paint.Align.CENTER
+                        }
+
+                        paint.getTextBounds(text,0,text.length,rect)
 
                         drawText(
                             text,
-                            textX,
-                            textY,
+                            textX - rect.exactCenterX(),
+                            textY - rect.exactCenterY(),
                             Paint().apply {
                                 textSize = clockStyle.textSize.toPx()
-                                textAlign = Paint.Align.CENTER
                             }
                         )
                     }

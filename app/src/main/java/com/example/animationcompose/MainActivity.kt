@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import com.example.animationcompose.presentation.clock.ClockScreen
 import com.example.animationcompose.presentation.clock.model.ClockStyle
 import com.example.animationcompose.ui.theme.AnimationComposeTheme
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AnimationComposeTheme {
+                WindowCompat.setDecorFitsSystemWindows(window,false)
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
