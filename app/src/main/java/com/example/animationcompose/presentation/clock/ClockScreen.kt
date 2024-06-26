@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.withRotation
 import com.example.animationcompose.presentation.clock.model.ClockStyle
 import com.example.animationcompose.ui.theme.AnimationComposeTheme
+import kotlinx.coroutines.delay
 import java.util.Date
 import kotlin.math.PI
 import kotlin.math.abs
@@ -38,30 +40,67 @@ import kotlin.math.sin
 @Composable
 fun ClockScreen(
     modifier: Modifier = Modifier,
-    curTime: Date = Calendar.getInstance().time,
+    curTime: Calendar = Calendar.getInstance(),
     clockStyle: ClockStyle
 ) {
 
+    var calendar = remember {
+        curTime
+    }
     val rect = android.graphics.Rect()
 
-    val hoursDegree by remember {
-        mutableFloatStateOf(0f)
+    var hoursDegree by remember {
+        mutableFloatStateOf(curTime.get(Calendar.HOUR) * 30f)
     }
-    val minDegree by remember {
-        mutableFloatStateOf(10f)
+    var minDegree by remember {
+        mutableFloatStateOf(curTime.get(Calendar.MINUTE) * 6f)
     }
-    val secDegree by remember {
-        mutableFloatStateOf(20f)
+    var secDegree by remember {
+        mutableFloatStateOf(curTime.get(Calendar.MILLISECOND) / 1000 * 6f)
+    }
+
+
+    LaunchedEffect(key1 = true) {
+        var isAddMin: Boolean
+        var minAdded = 0
+        var secAdded = 0
+        var isAddHour: Boolean
+
+        while (true) {
+            delay(1000L)
+            secDegree = (secDegree + 6) % 360
+
+            minDegree = (minDegree + 0.1f) % 360
+            secAdded += 6
+            if (secAdded == 120){
+                secAdded = 0
+                hoursDegree = (hoursDegree + 1f) % 360
+            }
+
+//            isAddMin =
+//                (secDegree >= 180 && secDegree < 186) || (secDegree >= 0 && secDegree < 6)
+//            if (isAddMin) {
+//                minAdded++
+//                minDegree = (minDegree + 3) % 360
+//                isAddHour = minAdded % 6 == 0
+//                if (isAddHour) {
+//                    minAdded = 0
+//                    hoursDegree = (hoursDegree + 3) % 360
+//                }
+//            }
+
+
+        }
     }
 
 
     Box(modifier = modifier.fillMaxSize()) {
         Canvas(modifier = modifier.fillMaxWidth()) {
             drawContext.canvas.nativeCanvas.apply {
-                val curHoursDegree = hoursDegree - clockStyle.hoursInitialDegree
-                val hx = clockStyle.radius.toPx() + center.x - 16.dp.toPx()
-                val mx = clockStyle.radius.toPx() + center.x - 24.dp.toPx()
-                val sx = clockStyle.radius.toPx() + center.x
+                val curHoursDegree = hoursDegree - clockStyle.hoursInitialDegree - 90f
+                val hx = clockStyle.hoursArrowLength.toPx() + center.x
+                val mx = clockStyle.minutesArrowLength.toPx() + center.x
+                val sx = clockStyle.secondsArrowLength.toPx() + center.x
 
                 val topPoint = Offset(
                     x = center.x,
@@ -113,18 +152,21 @@ fun ClockScreen(
                         lineEndOffset
                     )
                     if (i % 5 == 0) {
-                        val textRadius = lineRadius.toPx() - clockStyle.textSize.toPx() + 5.dp.toPx()
-                        val textX = (center.x + textRadius * cos(angleInRad)).toFloat()
-                        val textY = (center.y + textRadius * sin(angleInRad)).toFloat()
+                        val textRadius =
+                            lineRadius.toPx() - clockStyle.textSize.toPx() + 5.dp.toPx()
+                        val rotationInRad = 90 * PI / 180f
+                        val textX =
+                            (center.x + textRadius * cos(angleInRad - rotationInRad)).toFloat()
+                        val textY =
+                            (center.y + textRadius * sin(angleInRad - rotationInRad)).toFloat()
                         val text = (if (i == 0) 12 else i / 5).toString()
-
 
                         val paint = Paint().apply {
                             textSize = clockStyle.textSize.toPx()
                             textAlign = Paint.Align.CENTER
                         }
 
-                        paint.getTextBounds(text,0,text.length,rect)
+                        paint.getTextBounds(text, 0, text.length, rect)
 
                         drawText(
                             text,
@@ -153,8 +195,8 @@ fun ClockScreen(
                     }
                 }
                 withRotation(
-                    degrees = minDegree,
-                    pivotX = center.x,
+                    degrees = minDegree - 90f,
+                    pivotX = center.x ,
                     pivotY = center.y
                 ) {
                     Path().apply {
@@ -170,7 +212,7 @@ fun ClockScreen(
                 }
 
                 withRotation(
-                    degrees = secDegree,
+                    degrees = secDegree - 90f,
                     pivotX = center.x,
                     pivotY = center.y
                 ) {

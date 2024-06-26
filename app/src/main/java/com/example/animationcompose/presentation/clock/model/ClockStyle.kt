@@ -8,9 +8,9 @@ import androidx.compose.ui.unit.sp
 
 data class ClockStyle(
     val radius: Dp = 150.dp,
-    val hoursArrowLength: Dp = 120.dp,
-    val minutesArrowLength: Dp = 75.dp,
-    val secondsArrowLength: Dp = 25.dp,
+    val hoursArrowLength: Dp = 90.dp,
+    val minutesArrowLength: Dp = 120.dp,
+    val secondsArrowLength: Dp = 135.dp,
     val hoursArrowColor: Color = Color.Black,
     val minutesArrowColor: Color = Color.Black,
     val secondsArrowColor: Color = Color.Red,
