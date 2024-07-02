@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import com.example.animationcompose.presentation.clock.ClockScreen
 import com.example.animationcompose.presentation.clock.model.ClockStyle
-import com.example.animationcompose.ui.theme.AnimationComposeTheme
+import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)

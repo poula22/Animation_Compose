@@ -22,12 +22,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.withRotation
 import com.example.animationcompose.presentation.clock.model.ClockStyle
-import com.example.animationcompose.ui.theme.AnimationComposeTheme
+import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 import kotlinx.coroutines.delay
 import java.util.Date
 import kotlin.math.PI
@@ -56,40 +57,22 @@ fun ClockScreen(
         mutableFloatStateOf(curTime.get(Calendar.MINUTE) * 6f)
     }
     var secDegree by remember {
-        mutableFloatStateOf(curTime.get(Calendar.MILLISECOND) / 1000 * 6f)
+        mutableFloatStateOf(curTime.get(Calendar.MILLISECOND) * 1000 * 6f)
     }
 
+    Log.i("seeee",((curTime.get(Calendar.SECOND) * 6f)).toString())
 
     LaunchedEffect(key1 = true) {
-        var isAddMin: Boolean
-        var minAdded = 0
         var secAdded = 0
-        var isAddHour: Boolean
-
         while (true) {
             delay(1000L)
             secDegree = (secDegree + 6) % 360
-
             minDegree = (minDegree + 0.1f) % 360
-            secAdded += 6
+            secAdded += 1
             if (secAdded == 120){
                 secAdded = 0
                 hoursDegree = (hoursDegree + 1f) % 360
             }
-
-//            isAddMin =
-//                (secDegree >= 180 && secDegree < 186) || (secDegree >= 0 && secDegree < 6)
-//            if (isAddMin) {
-//                minAdded++
-//                minDegree = (minDegree + 3) % 360
-//                isAddHour = minAdded % 6 == 0
-//                if (isAddHour) {
-//                    minAdded = 0
-//                    hoursDegree = (hoursDegree + 3) % 360
-//                }
-//            }
-
-
         }
     }
 
@@ -216,6 +199,11 @@ fun ClockScreen(
                     pivotX = center.x,
                     pivotY = center.y
                 ) {
+                    drawCircle(
+                        color = Color.Red,
+                        radius = 8.dp.toPx(),
+                        center = center.copy(center.x+2.dp.toPx(),center.y-3.dp.toPx()),
+                    )
                     Path().apply {
                         moveTo(sx, center.y)
                         lineTo(topPoint.x, topPoint.y - 4.dp.toPx())

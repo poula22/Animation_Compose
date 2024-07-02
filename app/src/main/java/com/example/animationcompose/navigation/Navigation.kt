@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.animationcompose.core.navRoutes.Screens
 import com.example.animationcompose.presentation.circleGame.CircleGameScreen
 import com.example.animationcompose.presentation.shapes.DrawSomeShapes
 import com.example.animationcompose.presentation.weightSelector.WeightSelectorScreen

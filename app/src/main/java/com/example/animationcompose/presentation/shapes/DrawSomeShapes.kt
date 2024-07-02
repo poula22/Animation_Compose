@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.drawscope.inset
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.animationcompose.navigation.Screens
-import com.example.animationcompose.ui.theme.AnimationComposeTheme
+import com.example.animationcompose.core.navRoutes.Screens
+import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 
 @Composable
 fun DrawSomeShapes(onNavigate: (String) -> Unit) {

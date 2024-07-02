@@ -29,7 +29,7 @@ import com.example.animationcompose.presentation.weightSelector.component.utils.
 import com.example.animationcompose.presentation.weightSelector.component.utils.drawWeightText
 import com.example.animationcompose.presentation.weightSelector.model.LineType
 import com.example.animationcompose.presentation.weightSelector.model.ScaleStyle
-import com.example.animationcompose.ui.theme.AnimationComposeTheme
+import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2

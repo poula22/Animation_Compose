@@ -14,7 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.animationcompose.ui.theme.AnimationComposeTheme
+import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt

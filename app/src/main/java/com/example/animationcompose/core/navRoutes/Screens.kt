@@ -1,4 +1,4 @@
-package com.example.animationcompose.navigation
+package com.example.animationcompose.core.navRoutes
 
 sealed class Screens(val route: String) {
     data object Shapes: Screens("shapes")

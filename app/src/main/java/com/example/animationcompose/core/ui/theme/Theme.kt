@@ -1,4 +1,4 @@
-package com.example.animationcompose.ui.theme
+package com.example.animationcompose.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
