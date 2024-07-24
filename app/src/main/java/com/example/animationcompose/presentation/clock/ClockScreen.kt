@@ -44,10 +44,6 @@ fun ClockScreen(
     curTime: Calendar = Calendar.getInstance(),
     clockStyle: ClockStyle
 ) {
-
-    var calendar = remember {
-        curTime
-    }
     val rect = android.graphics.Rect()
 
     var hoursDegree by remember {
@@ -78,7 +74,7 @@ fun ClockScreen(
 
 
     Box(modifier = modifier.fillMaxSize()) {
-        Canvas(modifier = modifier.fillMaxWidth()) {
+        Canvas(modifier = modifier.fillMaxWidth().align(Alignment.Center)) {
             drawContext.canvas.nativeCanvas.apply {
                 val curHoursDegree = hoursDegree - clockStyle.hoursInitialDegree - 90f
                 val hx = clockStyle.hoursArrowLength.toPx() + center.x

@@ -29,7 +29,6 @@ fun GameBoard(
 ) {
 
     BoxWithConstraints {
-
         var ballPosition by remember {
             mutableStateOf(
                 randomOffset(

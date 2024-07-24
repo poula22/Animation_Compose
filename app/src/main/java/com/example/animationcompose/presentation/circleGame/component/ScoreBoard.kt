@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 import kotlinx.coroutines.delay
 
@@ -45,17 +47,18 @@ fun ScoreBoard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 5.dp),
+            .padding(vertical = 5.dp)
+            .safeContentPadding(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "score: $score")
+        Text(text = "score: $score", fontSize = 22.sp)
         Button(onClick = {
             toggleTimerState()
         }) {
-            Text(text = if (!isTimerStart) "start" else "reset")
+            Text(text = if (!isTimerStart) "start" else "reset", fontSize = 24.sp)
         }
-        Text(text = "time: $curTime")
+        Text(text = "time: $curTime", fontSize = 22.sp)
     }
 }
 

@@ -20,9 +20,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.inset
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.animationcompose.R
 import com.example.animationcompose.core.navRoutes.Screens
 import com.example.animationcompose.core.ui.theme.AnimationComposeTheme
 
@@ -75,23 +77,14 @@ fun DrawSomeShapes(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                onClick = {
-                    onNavigate(Screens.CircleGame.route)
-                }
-            ) {
-                Text(text = "Circle Game", fontSize = 24.sp)
+            ShapesCustomButton(text = stringResource(R.string.circle_game)) {
+                onNavigate(Screens.CircleGame.route)
             }
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                onClick = {
-                    onNavigate(Screens.WeightSelector.route)
-                }
-            ) {
-                Text(text = "Weight Selector", fontSize = 24.sp)
+            ShapesCustomButton(text = stringResource(R.string.weight_selector)) {
+                onNavigate(Screens.WeightSelector.route)
+            }
+            ShapesCustomButton(text = stringResource(R.string.clock)) {
+                onNavigate(Screens.Clock.route)
             }
         }
     }

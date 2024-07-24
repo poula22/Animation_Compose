@@ -4,4 +4,5 @@ sealed class Screens(val route: String) {
     data object Shapes: Screens("shapes")
     data object CircleGame: Screens("circleGame")
     data object WeightSelector: Screens("weightSelector")
+    data object Clock: Screens("Clock")
 }

@@ -9,13 +9,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.animationcompose.core.navRoutes.Screens
 import com.example.animationcompose.presentation.circleGame.CircleGameScreen
+import com.example.animationcompose.presentation.clock.ClockScreen
+import com.example.animationcompose.presentation.clock.model.ClockStyle
 import com.example.animationcompose.presentation.shapes.DrawSomeShapes
 import com.example.animationcompose.presentation.weightSelector.WeightSelectorScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(modifier: Modifier = Modifier) {
-    val  navController = rememberNavController()
+    val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = Screens.Shapes.route
@@ -36,6 +38,11 @@ fun Navigation(modifier: Modifier = Modifier) {
             route = Screens.WeightSelector.route
         ) {
             WeightSelectorScreen()
+        }
+        composable(
+            route = Screens.Clock.route
+        ) {
+            ClockScreen(clockStyle = ClockStyle())
         }
     }
 }
